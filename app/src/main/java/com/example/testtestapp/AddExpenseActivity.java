@@ -23,7 +23,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddExpenseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         type = getIntent().getStringExtra("type");
 
         if (type.equals("Income")){
@@ -56,7 +55,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.saveExpense) {
+        if (id == R.id.saveExpense) {
             createExpense();
             return true;
         }
