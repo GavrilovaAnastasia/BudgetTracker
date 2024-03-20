@@ -15,7 +15,6 @@ import java.util.List;
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.MyViewHolder> {
     private Context context;
     private OnItemsClick onItemsClick;
-
     private List<ExpenseModel> expenseModelList;
 
     public ExpensesAdapter(Context context, OnItemsClick onItemsClick) {
@@ -39,9 +38,9 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ExpensesAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
         ExpenseModel expenseModel=expenseModelList.get(position);
-        holder.date.setText(expenseModel.getNote());
+        holder.note.setText(expenseModel.getNote());
         holder.category.setText(expenseModel.getCategory());
         holder.amount.setText(String.valueOf(expenseModel.getAmount()));
 
@@ -67,6 +66,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.MyView
             amount=itemView.findViewById(R.id.amount);
             date=itemView.findViewById(R.id.date);
         }
+
     }
 
 

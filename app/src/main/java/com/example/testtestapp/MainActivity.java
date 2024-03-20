@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     @Override
     protected void onStart() {
         super.onStart();
+        getData();
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please");
         progressDialog.setMessage("Wait");
@@ -111,6 +112,5 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     public void OnClick(ExpenseModel expenseModel) {
         intent.putExtra("model",expenseModel);
         startActivity(intent);
-
     }
 }

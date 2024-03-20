@@ -28,6 +28,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         expenseModel = (ExpenseModel) getIntent().getSerializableExtra("model");
+
         if (type == null) {
             type = expenseModel.getType();
             binding.amount.setText(String.valueOf(expenseModel.getAmount()));
@@ -35,7 +36,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             binding.note.setText(expenseModel.getNote());
         }
 
-        if (type.equals("Income")){
+        if (type.equals("Income")) {
             binding.incomeRadio.setChecked(true);
         } else {
             binding.expenseRadio.setChecked(true);
@@ -71,7 +72,6 @@ public class AddExpenseActivity extends AppCompatActivity {
             } else {
                 updateExpense();
             }
-            createExpense();
             return true;
         }
         return false;
