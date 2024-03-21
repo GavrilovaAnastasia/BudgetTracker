@@ -59,7 +59,11 @@ public class AddExpenseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater=getMenuInflater();
-        menuInflater.inflate(R.menu.add_menu,menu);
+        if (expenseModel==null) {
+            menuInflater.inflate(R.menu.add_menu,menu);
+        } else {
+            menuInflater.inflate(R.menu.update_menu,menu);
+        }
         return true;
     }
 
@@ -67,14 +71,26 @@ public class AddExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.saveExpense) {
-            if (type != null) {
+            if (expenseModel == null) {
                 createExpense();
             } else {
                 updateExpense();
             }
             return true;
         }
+        if (id == R.id.deleteExpense) {
+            deleteExpense();
+        }
         return false;
+    }
+
+    private void deleteExpense() {
+        FirebaseFirestore
+                .getInstance()
+                .collection("expenses")
+                .document(expenseModel.getExpenseId())
+                .delete();
+        finish();
     }
 
     private void createExpense() {

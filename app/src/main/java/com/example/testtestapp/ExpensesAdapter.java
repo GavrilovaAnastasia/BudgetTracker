@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.MyViewHolder> {
@@ -43,6 +45,9 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.MyView
         holder.note.setText(expenseModel.getNote());
         holder.category.setText(expenseModel.getCategory());
         holder.amount.setText(String.valueOf(expenseModel.getAmount()));
+        SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm' 'dd-MM-yyyy");
+        String time = myFormat.format(expenseModel.getTime());
+        holder.date.setText(String.valueOf(time));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

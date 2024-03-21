@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.testtestapp.databinding.ActivityMainBinding;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -18,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnItemsClick{
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     private ExpensesAdapter expensesAdapter;
     Intent intent;
     private String type;
+    private long income = 0, expense = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     @Override
     protected void onStart() {
         super.onStart();
-        getData();
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please");
         progressDialog.setMessage("Wait");
@@ -84,8 +89,10 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
+        income = 0;
+        expense = 0;
         getData();
     }
 
@@ -101,15 +108,42 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
                         expensesAdapter.clear();
                         List<DocumentSnapshot> dsList = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot ds:dsList) {
+                            System.out.println(ds);
                             ExpenseModel expenseModel = ds.toObject(ExpenseModel.class);
+                            if (expenseModel.getType().equals("Income")) {
+                                income += expenseModel.getAmount();
+                            } else {
+                                expense += expenseModel.getAmount();
+                            }
                             expensesAdapter.add(expenseModel);
                         }
+                        setGraph();
                     }
                 });
     }
 
+    private void setGraph() {
+        List<PieEntry> pieEntryList = new ArrayList<>();
+        List<Integer> colorsList = new ArrayList<>();
+        if (income != 0) {
+            pieEntryList.add(new PieEntry(income, "Income"));
+            colorsList.add(getResources().getColor(R.color.black));
+        }
+        if (expense != 0) {
+            pieEntryList.add(new PieEntry(expense, "Expense"));
+            colorsList.add(getResources().getColor(R.color.biruse));
+        }
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList,String.valueOf(income=expense));
+        pieDataSet.setColors(colorsList);
+        pieDataSet.setValueTextColor(getResources().getColor(R.color.white));
+        PieData pieData = new PieData(pieDataSet);
+        binding.graph.setData(pieData);
+        binding.graph.invalidate();
+    }
+
     @Override
     public void OnClick(ExpenseModel expenseModel) {
+        Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
         intent.putExtra("model",expenseModel);
         startActivity(intent);
     }
