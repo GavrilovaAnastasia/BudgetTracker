@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -68,7 +69,13 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
         progressDialog.setMessage("Wait");
         progressDialog.setCancelable(false);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+        if(FirebaseAuth.getInstance().getCurrentUser()==null) {
+            Intent intent
+                    = new Intent(MainActivity.this,
+                    RegistrationActivity.class);
+            startActivity(intent);
+        }
+       /* if(FirebaseAuth.getInstance().getCurrentUser()==null){
             progressDialog.show();
             FirebaseAuth.getInstance()
                     .signInAnonymously()
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
                         }
                     });
         }
+
+        */
     }
 
     @Override
