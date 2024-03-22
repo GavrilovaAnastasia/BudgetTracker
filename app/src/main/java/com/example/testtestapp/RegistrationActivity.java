@@ -21,6 +21,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
     private Button Btn;
     private FirebaseAuth mAuth;
+    private TextView textSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,13 +34,23 @@ public class RegistrationActivity extends AppCompatActivity {
         emailTextView = findViewById(R.id.editTextUsername);
         passwordTextView = findViewById(R.id.editTextPassword);
         Btn = findViewById(R.id.buttonLogin);
-
+        textSwitch = findViewById(R.id.goToAuth);
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 System.out.println("11111111");
                 registerNewUser();
+            }
+        });
+        textSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent
+                        = new Intent(RegistrationActivity.this,
+                        LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -77,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         Intent intent
                                 = new Intent(RegistrationActivity.this,
-                                MainActivity.class);
+                                LoginActivity.class);
                         startActivity(intent);
                     }
                 })

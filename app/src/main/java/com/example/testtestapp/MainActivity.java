@@ -2,6 +2,9 @@ package com.example.testtestapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -149,7 +152,24 @@ public class MainActivity extends AppCompatActivity implements OnItemsClick{
         binding.graph.setData(pieData);
         binding.graph.invalidate();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.log_out_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.logOut) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            FirebaseAuth.getInstance().signOut();
+            finish();
+        }
+        return true;
+    }
     @Override
     public void OnClick(ExpenseModel expenseModel) {
         Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);

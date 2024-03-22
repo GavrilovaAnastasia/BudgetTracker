@@ -1,6 +1,7 @@
 package com.example.testtestapp;
 
 import android.text.TextUtils;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailTextView, passwordTextView;
     private Button Btn;
+    private TextView textSwitch;
 
     private FirebaseAuth mAuth;
     @Override
@@ -32,11 +34,23 @@ public class LoginActivity extends AppCompatActivity {
         emailTextView = findViewById(R.id.editTextUsername);
         passwordTextView = findViewById(R.id.editTextPassword);
         Btn = findViewById(R.id.buttonLogin);
+        textSwitch = findViewById(R.id.goToRegistration);
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 loginUserAccount();
+            }
+        });
+        textSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent
+                        = new Intent(LoginActivity.this,
+                        RegistrationActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
